@@ -1,14 +1,14 @@
 import axios from 'axios';
 import { useState } from 'react';
 
-import Button from '../../../shared/buttons/button';
+import Button from '../../../shared/buttons/Button';
+import SVGLogo from '../../../shared/icons/SVGLogo';
 import Input from '../../../shared/inputs/input/Input';
 import {
   BackgroundImage,
   ContainerLogin,
   ContainerLoginScreen,
   LimitedContainer,
-  LogoImage,
   TitleLogin,
 } from '../styles/loginScreen.styles';
 
@@ -48,7 +48,7 @@ const LoginScreen = () => {
       <BackgroundImage src="./background.png" />
       <ContainerLogin>
         <LimitedContainer>
-          <LogoImage src="./logo.png"></LogoImage>
+          <SVGLogo></SVGLogo>
           <TitleLogin level={2} type="secondary">
             LOGIN
           </TitleLogin>
