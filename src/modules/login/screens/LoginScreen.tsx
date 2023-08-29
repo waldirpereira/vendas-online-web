@@ -19,8 +19,8 @@ const LoginScreen = () => {
           <TitleLogin level={2} type="secondary">
             LOGIN
           </TitleLogin>
-          <Input title="USER:"></Input>
-          <Input title="PASSWORD:"></Input>
+          <Input title="USER:" margin="16px 0px 0px"></Input>
+          <Input title="PASSWORD:" margin="16px 0px 0px"></Input>
           <Button type="primary" margin="32px 0px 16px 0px">
             ENTRAR
           </Button>
