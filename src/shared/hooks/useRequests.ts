@@ -1,11 +1,18 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
+import { AuthType } from '../../modules/login/types/AuthType';
+import { ERROR_AUTHENTICATION_FAILED } from '../constants/errorStatus';
+import { URL_AUTH } from '../constants/url';
+import { RoutesEnum } from '../enums/routes.enum';
+import { setAuthorizationToken } from '../functions/connection/auth';
 import { connectionAPIGet, connectionAPIPost } from '../functions/connection/connectionAPI';
 import { useGlobalContext } from './useGlobalContext';
 
 export const useRequests = () => {
   const [loading, setLoading] = useState(false);
   const { setNotification } = useGlobalContext();
+  const navigate = useNavigate();
 
   const getRequest = async (url: string) => {
     setLoading(true);
@@ -34,5 +41,20 @@ export const useRequests = () => {
     return returnData;
   };
 
-  return { loading, getRequest, postRequest };
+  const authRequest = async (body: unknown): Promise<void> => {
+    setLoading(true);
+    await connectionAPIPost<AuthType>(URL_AUTH, body)
+      .then((result) => {
+        setNotification('Logged in!', 'success');
+        setAuthorizationToken(result.accessToken);
+        navigate(RoutesEnum.PRODUCT);
+      })
+      .catch(() => {
+        setNotification(ERROR_AUTHENTICATION_FAILED, 'error');
+      });
+
+    setLoading(false);
+  };
+
+  return { loading, authRequest, getRequest, postRequest };
 };
