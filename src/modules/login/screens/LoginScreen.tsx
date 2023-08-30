@@ -14,7 +14,7 @@ import {
 } from '../styles/loginScreen.styles';
 
 const LoginScreen = () => {
-  const { accessToken, setAccessToken } = useGlobalContext();
+  const { accessToken } = useGlobalContext();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { postRequest, loading } = useRequests();
@@ -31,8 +31,6 @@ const LoginScreen = () => {
     postRequest('http://localhost:8080/auth', {
       email,
       password,
-    }).then((data) => {
-      setAccessToken(data.accessToken);
     });
   };
 
