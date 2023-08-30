@@ -8,9 +8,9 @@ import {
 import { MethodsEnum } from '../../enums/methods.enum';
 import { getAuthorizationToken } from './auth';
 
-type MethodType = 'get' | 'post' | 'delete' | 'patch' | 'put';
+export type MethodType = 'get' | 'post' | 'delete' | 'patch' | 'put';
 
-class ConnectionAPI {
+export class ConnectionAPI {
   static async call<T>(url: string, method: MethodType, body?: unknown): Promise<T> {
     const config: AxiosRequestConfig = {
       headers: {

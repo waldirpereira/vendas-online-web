@@ -6,7 +6,11 @@ import { ERROR_AUTHENTICATION_FAILED } from '../constants/errorStatus';
 import { URL_AUTH } from '../constants/url';
 import { RoutesEnum } from '../enums/routes.enum';
 import { setAuthorizationToken } from '../functions/connection/auth';
-import { connectionAPIGet, connectionAPIPost } from '../functions/connection/connectionAPI';
+import {
+  ConnectionAPI,
+  connectionAPIPost,
+  MethodType,
+} from '../functions/connection/connectionAPI';
 import { useGlobalContext } from './useGlobalContext';
 
 export const useRequests = () => {
@@ -14,15 +18,29 @@ export const useRequests = () => {
   const { setNotification, setUser } = useGlobalContext();
   const navigate = useNavigate();
 
-  const getRequest = async (url: string) => {
+  const request = async <T>(
+    url: string,
+    method: MethodType,
+    saveGlobal?: (object: T) => void,
+    body?: unknown,
+  ): Promise<T | undefined> => {
     setLoading(true);
-    return await connectionAPIGet(url)
-      .then((result) => {
+
+    const returnObject: T | undefined = await ConnectionAPI.connect<T>(url, method, body)
+      .then((result: T) => {
+        if (saveGlobal) {
+          saveGlobal(result);
+        }
         return result;
       })
-      .catch(() => {
-        setNotification('Authentication error!', 'error');
+      .catch((error: Error) => {
+        setNotification(error.message, 'error');
+        return undefined;
       });
+
+    setLoading(false);
+
+    return returnObject;
   };
 
   const postRequest = async <T>(url: string, body: unknown): Promise<T | undefined> => {
@@ -57,5 +75,5 @@ export const useRequests = () => {
     setLoading(false);
   };
 
-  return { loading, authRequest, getRequest, postRequest };
+  return { loading, authRequest, request, postRequest };
 };
