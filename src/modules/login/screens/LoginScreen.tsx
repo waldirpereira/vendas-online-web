@@ -12,9 +12,10 @@ import {
   LimitedContainer,
   TitleLogin,
 } from '../styles/loginScreen.styles';
+import { UserType } from '../types/UserType';
 
 const LoginScreen = () => {
-  const { accessToken } = useGlobalContext();
+  const { accessToken, setAccessToken } = useGlobalContext();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { postRequest, loading } = useRequests();
@@ -28,10 +29,12 @@ const LoginScreen = () => {
   };
 
   const handleLogin = async () => {
-    postRequest('http://localhost:8080/auth', {
+    const user = await postRequest<UserType>('http://localhost:8080/auth', {
       email,
       password,
     });
+
+    setAccessToken(user?.accessToken || '');
   };
 
   return (
