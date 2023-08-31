@@ -15,21 +15,16 @@ export const setAuthorizationToken = (token: string): void => {
 
 export const getAuthorizationToken = (): string | null => getStorageItem(AUTHORIZATION_KEY);
 
-export const verifyLoggedIn = async (setUser: (user: UserType) => void, user?: UserType) => {
+export const verifyLoggedIn = async () => {
   const token = getAuthorizationToken();
   if (!token) {
     location.href = RoutesEnum.LOGIN;
   }
 
-  if (!user) {
-    await connectionAPIGet<UserType>(URL_USER)
-      .then((returnedUser: UserType) => {
-        setUser(returnedUser);
-      })
-      .catch(() => {
-        unsetAuthorizationToken();
-        location.href = RoutesEnum.LOGIN;
-      });
-  }
+  await connectionAPIGet<UserType>(URL_USER).catch(() => {
+    unsetAuthorizationToken();
+    location.href = RoutesEnum.LOGIN;
+  });
+
   return null;
 };
