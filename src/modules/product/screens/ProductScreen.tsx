@@ -6,19 +6,29 @@ import { URL_PRODUCT } from '../../../shared/constants/url';
 import { MethodsEnum } from '../../../shared/enums/methods.enum';
 import { useDataContext } from '../../../shared/hooks/useDataContext';
 import { useRequests } from '../../../shared/hooks/useRequests';
-import { ProductType } from '../types/ProductType';
+import { CategoryType } from '../../../shared/types/CategoryType';
+import { ProductType } from '../../../shared/types/ProductType';
+import CategoryColumn from '../components/CategoryColumn';
+import TooltipImage from '../components/TooltipImage';
 
 const columns: ColumnsType<ProductType> = [
   {
     title: 'Id',
     dataIndex: 'id',
     key: 'id',
+    render: (_, product: ProductType) => <TooltipImage product={product}></TooltipImage>,
   },
   {
     title: 'Name',
     dataIndex: 'name',
     key: 'name',
     render: (text) => <a>{text}</a>,
+  },
+  {
+    title: 'Category',
+    dataIndex: 'category',
+    key: 'category',
+    render: (category: CategoryType) => <CategoryColumn category={category} />,
   },
   {
     title: 'Price',
