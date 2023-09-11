@@ -45,7 +45,7 @@ const Product = () => {
     request<ProductType[]>(URL_PRODUCT, MethodsEnum.GET, setProducts);
   }, []);
 
-  return <Table columns={columns} dataSource={products} />;
+  return <Table columns={columns} dataSource={products} rowKey="id" />;
 };
 
 export default Product;
