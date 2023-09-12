@@ -17,7 +17,10 @@ import { ProductType } from '../../../shared/types/ProductType';
 import CategoryColumn from '../components/CategoryColumn';
 import TooltipImage from '../components/TooltipImage';
 
-const listBreadCrumb: BreadCrumbItem[] = [{ name: 'Home', navigateTo: '/' }, { name: 'Product' }];
+const listBreadCrumb: BreadCrumbItem[] = [
+  { name: 'Home', navigateTo: RoutesEnum.ROOT },
+  { name: 'Product' },
+];
 
 const columns: ColumnsType<ProductType> = [
   {
