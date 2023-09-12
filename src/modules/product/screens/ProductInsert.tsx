@@ -38,9 +38,6 @@ const ProductInsert = () => {
   const onChange = (event: React.ChangeEvent<HTMLInputElement>, propertyName: string) => {
     const { type } = event.target;
     const value = type === 'number' ? Number(event.target.value) : event.target.value;
-    console.log(type === 'number');
-    console.log({ test: value });
-
     setProduct({ ...product, [propertyName]: value });
   };
 
