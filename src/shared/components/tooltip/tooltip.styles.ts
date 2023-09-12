@@ -13,7 +13,8 @@ export const ContainerTooltip = styled.div`
 export const ContainerExternal = styled.div`
   display: none;
   position: absolute;
-  bottom: -32px;
+  margin-top: 24px;
+  margin-left: 8px;
   padding: 4px;
   border-radius: 4px;
   background-color: rgba(0, 0, 0, 0.4);
