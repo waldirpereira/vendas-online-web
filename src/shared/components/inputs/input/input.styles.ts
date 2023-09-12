@@ -8,5 +8,5 @@ export const BoxInput = styled.div`
 `;
 
 export const TitleInput = styled(Text)`
-  margin-left: 8px;
+  margin-left: 0px;
 `;
