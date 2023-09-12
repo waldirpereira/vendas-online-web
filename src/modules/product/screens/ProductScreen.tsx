@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import Table from '../../../shared/components/table/Table';
 import { URL_PRODUCT } from '../../../shared/constants/url';
 import { MethodsEnum } from '../../../shared/enums/methods.enum';
+import { convertNumberToMoney } from '../../../shared/functions/money';
 import { useDataContext } from '../../../shared/hooks/useDataContext';
 import { useRequests } from '../../../shared/hooks/useRequests';
 import { CategoryType } from '../../../shared/types/CategoryType';
@@ -34,6 +35,7 @@ const columns: ColumnsType<ProductType> = [
     title: 'Price',
     dataIndex: 'price',
     key: 'price',
+    render: (_, product) => <a>{convertNumberToMoney(product.price)}</a>,
   },
 ];
 
