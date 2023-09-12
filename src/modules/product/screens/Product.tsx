@@ -1,6 +1,7 @@
 import { ColumnsType } from 'antd/es/table';
 import { useEffect } from 'react';
 
+import Screen from '../../../shared/components/screen/Screen';
 import Table from '../../../shared/components/table/Table';
 import { URL_PRODUCT } from '../../../shared/constants/url';
 import { MethodsEnum } from '../../../shared/enums/methods.enum';
@@ -47,7 +48,11 @@ const Product = () => {
     request<ProductType[]>(URL_PRODUCT, MethodsEnum.GET, setProducts);
   }, []);
 
-  return <Table columns={columns} dataSource={products} rowKey="id" />;
+  return (
+    <Screen>
+      <Table columns={columns} dataSource={products} rowKey="id" />
+    </Screen>
+  );
 };
 
 export default Product;
