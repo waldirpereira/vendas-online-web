@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { BreadCrumbItem } from '../../../shared/components/breadcrumb/BreadCrumb';
 import Button from '../../../shared/components/buttons/Button';
 import Input from '../../../shared/components/inputs/input/Input';
+import Money from '../../../shared/components/inputs/money/Money';
 import Select, { SelectOption } from '../../../shared/components/inputs/select/Select';
 import Screen from '../../../shared/components/screen/Screen';
 import { DisplayFlexJustifyRight } from '../../../shared/components/styles/display.style';
@@ -42,9 +43,11 @@ const ProductInsert = () => {
   };
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>, propertyName: string) => {
-    const { type } = event.target;
-    const value = type === 'number' ? Number(event.target.value) : event.target.value;
-    setProduct({ ...product, [propertyName]: value });
+    setProduct({ ...product, [propertyName]: event.target.value });
+  };
+
+  const onChangeMoney = (event: React.ChangeEvent<HTMLInputElement>, propertyName: string) => {
+    setProduct({ ...product, [propertyName]: Number(event.target.value) });
   };
 
   const handleInsertProduct = async () => {
@@ -83,14 +86,13 @@ const ProductInsert = () => {
             margin="0px 0px 16px 0px"
             onChange={(event) => onChange(event, 'image')}
           ></Input>
-          <Input
+          <Money
             value={product.price}
-            type="number"
             title="Price"
             placeholder="19.98"
             margin="0px 0px 16px 0px"
-            onChange={(event) => onChange(event, 'price')}
-          ></Input>
+            onChange={(event) => onChangeMoney(event, 'price')}
+          ></Money>
           <Select
             title="Category"
             margin="0px 0px 32px 0px"
