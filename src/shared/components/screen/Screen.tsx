@@ -2,6 +2,7 @@ import { Divider } from 'antd';
 import React from 'react';
 
 import BreadCrumb, { BreadCrumbItem } from '../breadcrumb/BreadCrumb';
+import Header from '../header/Header';
 import Menu from '../menu/Menu';
 import { ScreenContainer } from './screen.style';
 
@@ -12,16 +13,19 @@ interface ScreenProps {
 
 const Screen = ({ children, listBreadCrumb }: ScreenProps) => {
   return (
-    <ScreenContainer>
-      <Menu></Menu>
-      {listBreadCrumb?.length && (
-        <>
-          <BreadCrumb listBreadCrumb={listBreadCrumb}></BreadCrumb>
-          <Divider></Divider>
-        </>
-      )}
-      {children}
-    </ScreenContainer>
+    <>
+      <Header></Header>
+      <ScreenContainer>
+        <Menu></Menu>
+        {listBreadCrumb?.length && (
+          <>
+            <BreadCrumb listBreadCrumb={listBreadCrumb}></BreadCrumb>
+            <Divider></Divider>
+          </>
+        )}
+        {children}
+      </ScreenContainer>
+    </>
   );
 };
 

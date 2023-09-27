@@ -7,7 +7,7 @@ import { loginRoutes } from './modules/login/routes';
 import { productScreenRoutes } from './modules/product/routes';
 import { URL_USER } from './shared/constants/url';
 import { MethodsEnum } from './shared/enums/methods.enum';
-import { verifyLoggedIn } from './shared/functions/connection/auth';
+import { getAuthorizationToken, verifyLoggedIn } from './shared/functions/connection/auth';
 import { useGlobalContext } from './shared/hooks/useGlobalContext';
 import { useNotification } from './shared/hooks/useNotification';
 import { useRequests } from './shared/hooks/useRequests';
@@ -26,7 +26,10 @@ function App() {
   const { setUser } = useGlobalContext();
 
   useEffect(() => {
-    request(URL_USER, MethodsEnum.GET, setUser);
+    const token = getAuthorizationToken();
+    if (token) {
+      request(URL_USER, MethodsEnum.GET, setUser);
+    }
   }, []);
 
   return (

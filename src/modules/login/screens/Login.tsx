@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import Button from '../../../shared/components/buttons/Button';
 import SVGLogo from '../../../shared/components/icons/SVGLogo';
@@ -17,7 +16,6 @@ const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { authRequest, loading } = useRequests();
-  const navigate = useNavigate();
 
   const handleEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -28,7 +26,7 @@ const LoginScreen = () => {
   };
 
   const handleLogin = async () => {
-    authRequest(navigate, {
+    authRequest({
       email,
       password,
     });

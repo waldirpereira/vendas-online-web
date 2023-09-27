@@ -42,14 +42,14 @@ export const useRequests = () => {
     return returnObject;
   };
 
-  const authRequest = async (navigate: NavigateFunction, body: unknown): Promise<void> => {
+  const authRequest = async (body: unknown): Promise<void> => {
     setLoading(true);
     await connectionAPIPost<AuthType>(URL_AUTH, body)
       .then((result) => {
         setUser(result.user);
         setNotification('Logged in!', 'success');
         setAuthorizationToken(result.accessToken);
-        navigate(RoutesEnum.PRODUCT);
+        location.href = '/';
       })
       .catch(() => {
         setNotification(ERROR_AUTHENTICATION_FAILED, 'error');
