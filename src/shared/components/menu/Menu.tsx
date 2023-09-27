@@ -1,4 +1,3 @@
-import SVGLogo from '../icons/SVGLogo';
 import { CompanyName, ContainerLogoName, ContainerMenu, LogoMenu } from './menu.style';
 
 const Menu = () => {
