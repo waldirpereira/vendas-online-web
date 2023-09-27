@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 import { BreadCrumbItem } from '../../../shared/components/breadcrumb/BreadCrumb';
 import Button from '../../../shared/components/buttons/Button';
@@ -9,14 +8,12 @@ import Select, { SelectOption } from '../../../shared/components/inputs/select/S
 import Screen from '../../../shared/components/screen/Screen';
 import { DisplayFlexJustifyRight } from '../../../shared/components/styles/display.style';
 import { LimitedContainer } from '../../../shared/components/styles/limited.style';
-import { URL_CATEGORY, URL_PRODUCT } from '../../../shared/constants/url';
-import { InsertProduct } from '../../../shared/dtos/insertProduct.dto';
+import { URL_CATEGORY } from '../../../shared/constants/url';
 import { MethodsEnum } from '../../../shared/enums/methods.enum';
 import { RoutesEnum } from '../../../shared/enums/routes.enum';
-import { connectionAPIPost } from '../../../shared/functions/connection/connectionAPI';
 import { useDataContext } from '../../../shared/hooks/useDataContext';
-import { useGlobalContext } from '../../../shared/hooks/useGlobalContext';
 import { useRequests } from '../../../shared/hooks/useRequests';
+import { useInsertProduct } from '../hooks/useInsertProduct';
 import { ProductInsertContainer, TitleBox, TitleText } from '../styles/productInsert.style';
 
 const listBreadCrumb: BreadCrumbItem[] = [
@@ -26,44 +23,23 @@ const listBreadCrumb: BreadCrumbItem[] = [
 ];
 
 const ProductInsert = () => {
-  const [product, setProduct] = useState<InsertProduct>({ name: '', price: 0, image: '' });
+  const {
+    product,
+    loading,
+    disabledButton,
+    handleCategoryChange,
+    onChangeInput,
+    handleInsertProduct,
+    handleCancel,
+  } = useInsertProduct();
   const { categories, setCategories } = useDataContext();
   const { request } = useRequests();
-  const navigate = useNavigate();
-  const { setNotification } = useGlobalContext();
 
   useEffect(() => {
     if (!categories.length) {
       request(URL_CATEGORY, MethodsEnum.GET, setCategories);
     }
   }, []);
-
-  const handleCategoryChange = (value: number) => {
-    setProduct({ ...product, categoryId: value });
-  };
-
-  const onChange = (event: React.ChangeEvent<HTMLInputElement>, propertyName: string) => {
-    setProduct({ ...product, [propertyName]: event.target.value });
-  };
-
-  const onChangeMoney = (event: React.ChangeEvent<HTMLInputElement>, propertyName: string) => {
-    setProduct({ ...product, [propertyName]: Number(event.target.value) });
-  };
-
-  const handleInsertProduct = async () => {
-    await connectionAPIPost(URL_PRODUCT, product)
-      .then(() => {
-        setNotification('Success', 'success', 'Product created!');
-        navigate(RoutesEnum.PRODUCT);
-      })
-      .catch((error: Error) => {
-        setNotification(error.message, 'error', error.stack);
-      });
-  };
-
-  const handleCancel = () => {
-    navigate(RoutesEnum.PRODUCT);
-  };
 
   return (
     <Screen listBreadCrumb={listBreadCrumb}>
@@ -77,21 +53,21 @@ const ProductInsert = () => {
             title="Name"
             placeholder="T-shirt"
             margin="0px 0px 16px 0px"
-            onChange={(event) => onChange(event, 'name')}
+            onChange={(event) => onChangeInput(event, 'name')}
           ></Input>
           <Input
             value={product.image}
             title="Image URL"
             placeholder="http://..."
             margin="0px 0px 16px 0px"
-            onChange={(event) => onChange(event, 'image')}
+            onChange={(event) => onChangeInput(event, 'image')}
           ></Input>
           <Money
             value={product.price}
             title="Price"
             placeholder="19.98"
             margin="0px 0px 16px 0px"
-            onChange={(event) => onChangeMoney(event, 'price')}
+            onChange={(event) => onChangeInput(event, 'price')}
           ></Money>
           <Select
             title="Category"
@@ -109,7 +85,12 @@ const ProductInsert = () => {
               </Button>
             </LimitedContainer>
             <LimitedContainer width={120}>
-              <Button type="primary" onClick={handleInsertProduct}>
+              <Button
+                loading={loading}
+                disabled={disabledButton}
+                type="primary"
+                onClick={handleInsertProduct}
+              >
                 Insert product
               </Button>
             </LimitedContainer>

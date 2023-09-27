@@ -15,7 +15,7 @@ const Money = ({ value, onChange, addonBefore = '$', ...props }: MoneyProps) => 
   useEffect(() => {
     const valueString = `${value}`;
     if (!/\D/.test(valueString.replace('.', ''))) {
-      setCurrentValue(value.toFixed(DECIMAL_SIZE).toString());
+      setCurrentValue(Number(value).toFixed(DECIMAL_SIZE).toString());
     }
   }, [value]);
 
@@ -27,8 +27,6 @@ const Money = ({ value, onChange, addonBefore = '$', ...props }: MoneyProps) => 
       '.',
       valueOnlyNumbers.slice(sliceSize),
     ].join('');
-
-    console.log('newValue', newValue);
 
     onChange({
       ...event,
